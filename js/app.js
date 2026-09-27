@@ -186,6 +186,8 @@ app.addEventListener("click", function(event) {
         
         const alerta = document.querySelector("#alerta-doacao");
         alerta.style.display = "block";
+        
+        botao.textContent = "Doação resgistrada!";
     });
     
 // página inicial 
