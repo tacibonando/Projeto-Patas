@@ -188,6 +188,9 @@ app.addEventListener("click", function(event) {
         alerta.style.display = "block";
         
         botao.textContent = "Doação resgistrada!";
+        setTimeout(function() {
+            botao.textContent = "Fazer uma doação";
+        }, 3000);
     });
     
 // página inicial 
