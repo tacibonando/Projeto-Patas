@@ -173,7 +173,7 @@ app.addEventListener("click", function(event) {
 
     setTimeout(function() {
         toast.classList.remove("mostrar");
-    }, 4000);
+    }, 5000);
 });
 
 // botão "fazer uma doação"
