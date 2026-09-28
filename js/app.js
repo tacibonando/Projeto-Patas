@@ -87,26 +87,23 @@ function mostrarAjudar() {
         <section id="doacoes">
             <h3>Doações</h3>
             <p>As doações ajudam a custear alimentação, medicamentos, consultas veterinárias e outros cuidados necessários para os animais resgatados. Toda contribuição faz diferença para manter nosso trabalho.</p>
-        <button class="botao" id="botao-doar" type="button">
-            Fazer uma doação
-        </button>
+    
             <div class="alerta alerta-sucesso" id="alerta-doacao">
                 <strong>Obrigada por contribuir! .✦ ݁˖</strong>
                 <p>Sua ajuda faz diferença para os animais do Projeto Patas.</p>
             </div>
-            <a href="#" class="botao" data-rota="cadastro">Cadastre-se para doar</a>
+
+            <a href="#" class="botao" data-rota="cadastro">Quero doar</a>
+
         </section>
     
         <section id="voluntariado">
             <h3>Voluntariado</h3>
         
             <p>Você pode participar do Projeto Patas ajudando nas ações de cuidado, divulgação, campanhas de adoção e eventos de conscientização. O trabalho voluntário contribui diretamente para o bem-estar dos animais.</p>
-            <a href="#" class="botao" data-rota="cadastro">Quero me voluntariar</a>
-        </section>
 
-            <button class="botao" id="botao-ajudar" type="button">
-                Quero ajudar
-            </button>
+            <a href="#" class="botao" data-rota="cadastro">Cadastre-se para voluntariado</a>
+
         </section>
 `
 }
@@ -202,6 +199,7 @@ function mostrarCadastro() {
 
 
 /* ROTEAMENTO E EVENTOS */
+
 function ativarRota(rota) {
     if (rota === "inicio") {
         mostrarInicio();
@@ -220,7 +218,6 @@ function ativarRota(rota) {
     }
 }
 
-ativarRota(rotaInicial);
 
 document.addEventListener("click", function(event) {
     const link = event.target.closest("[data-rota]");
@@ -247,7 +244,7 @@ document.addEventListener("click", function(event) {
 });
 
 window.addEventListener("hashchange", function() {
-    const rota = location.hash.replace("#", "");
+    const rota = location.hash.replace("#", ""); "inicio";
     ativarRota(rota);
 });
 
@@ -300,12 +297,8 @@ if (dadosSalvos) {
 // Se não existir nenhuma, abre a página inicial.
 const rotaInicial = rotaHash || rotaSalva || "inicio";
 
-if (rotaInicial === "sobre") {
-    mostrarSobre();
-} else if (rotaInicial === "adocao") {
-    mostrarAdocao();
-}  else if (rotaInicial === "ajudar") {
-    mostrarAjudar();
-} else {
-    mostrarInicio();
-}
+// garante que a tela inicial também tenha um # no histórico
+// (replaceState troca a entrada atual, não cria outra e não dispara hashchange)
+history.replaceState(null, "", "#" + rotaInicial);
+
+ativarRota(rotaInicial);
