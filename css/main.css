@@ -492,6 +492,7 @@ input:invalid {
     font-size: var(--fonte-x3);
     line-height: 1.5;
 }
+
 /* página Como adotar */ 
 #adotar {
     padding: var(--espacamento4) 0;
@@ -683,4 +684,159 @@ s
     border-radius: 12px;
     filter: saturate(85%) sepia(15%) hue-rotate(-10deg);
 
+}
+
+
+/* ---- centralização ----
+   A seção deixa de ser grid de 12 colunas e vira uma coluna centralizada com largura máxima. Funciona igual em desktop, tablet e celular. */
+#cadastro {
+    display: block;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--espacamento5) 0;
+}
+
+/* formas coloridas atrás do cartão (é o que o blur vai borrar).
+   Ficam meio para fora do cartão, cobrindo só um canto de cada lado. */
+#cadastro::before,
+#cadastro::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+}
+#cadastro::before {
+    width: 240px;
+    height: 240px;
+    top: 16px;
+    left: -80px;
+    background: var(--cor-primaria);
+    opacity: 0.6;
+}
+#cadastro::after {
+    width: 220px;
+    height: 220px;
+    bottom: 16px;
+    right: -70px;
+    background: var(--cor-secundaria);
+    opacity: 0.55;
+}
+
+/* ---- cartão de vidro ---- */
+.cadastro-conteudo {
+    position: relative;
+    z-index: 1;
+    padding: var(--espacamento5) var(--espacamento4);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.85); /* plano B, para navegador sem blur */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .cadastro-conteudo {
+        background: rgba(255, 255, 255, 0.55);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+    }
+}
+.cadastro-conteudo > h2 {
+    margin-top: 0;
+    text-align: center;
+}
+.cadastro-conteudo > p {
+    text-align: center;
+}
+
+/* ---- formulário ---- */
+.form-cadastro fieldset {
+    border: 1px solid rgba(207, 198, 220, 0.8); /* --cor-neutro com transparência */
+    border-radius: 16px;
+    padding: var(--espacamento3) var(--espacamento4);
+    margin: 0 0 var(--espacamento4);
+    background: rgba(255, 255, 255, 0.35);
+}
+.form-cadastro legend {
+    font-family: var(--fonte-display);
+    font-size: var(--fonte-x3);
+    padding: 0 var(--espacamento1);
+    color: var(--cor-texto);
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacamento1);
+    margin-bottom: var(--espacamento3);
+}
+.campo-grupo label {
+    font-weight: 700;
+    font-size: var(--fonte-small);
+}
+.campo-grupo input,
+.campo-grupo select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--espacamento2);
+    border: 2px solid var(--cor-neutro); /* neutro até a pessoa digitar */
+    border-radius: 8px;
+    background-color: var(--cor-branco);
+    font-family: var(--fonte-corpo);
+    font-size: var(--fonte-base);
+}
+.campo-grupo input:focus,
+.campo-grupo select:focus {
+    outline: 2px solid var(--cor-apoio);
+    outline-offset: 2px;
+}
+
+/* estados que o cadastro.js aplica ao digitar. Precisam ser mais específicos que o input:valid / input:invalid global do main.css. */
+.campo-grupo input.campo-sucesso,
+.campo-grupo select.campo-sucesso {
+    border-color: var(--cor-apoio);
+}
+.campo-grupo input.campo-erro,
+.campo-grupo select.campo-erro {
+    border-color: var(--cor-secundaria-escura);
+}
+
+.form-cadastro button[type="submit"] {
+    display: block;
+    margin: var(--espacamento3) auto 0;
+    border: none;
+    cursor: pointer;
+    font-size: var(--fonte-base);
+}
+
+/* ---- responsivo ---- */
+@media (min-width: 769px) {
+    /* dois campos por linha dentro de cada grupo */
+    .form-cadastro fieldset {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 var(--espacamento3);
+        align-items: start;
+    }
+    .form-cadastro legend {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .cadastro-conteudo {
+        padding: var(--espacamento4) var(--espacamento3);
+    }
+    .form-cadastro fieldset {
+        padding: var(--espacamento2) var(--espacamento3);
+    }
+    #cadastro::before {
+        width: 150px;
+        height: 150px;
+        left: -50px;
+    }
+    #cadastro::after {
+        width: 140px;
+        height: 140px;
+        right: -40px;
+    }
 }
