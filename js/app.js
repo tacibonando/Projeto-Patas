@@ -78,6 +78,24 @@ function mostrarAdocao() {
     `;
 }
 
+function mostrarAdotar() {
+    app.innerHTML = `
+    <section id="adotar">
+        <h2>Como adotar</h2>
+        <p>Adotar é um compromisso para toda a vida do gatinho. Por isso, o processo tem alguns passos simples, que ajudam a garantir que cada animal encontre um lar responsável.</p>
+ 
+        <ol class="passos">
+            <li><strong>Conheça os gatinhos.</strong> Veja quem está disponível para adoção na página de Adoção.</li>
+            <li><strong>Faça seu cadastro.</strong> Preencha o formulário com seus dados para que a equipe possa entrar em contato.</li>
+            <li><strong>Converse com a nossa equipe.</strong> Vamos conhecer você e a sua rotina para encontrar o gatinho mais compatível.</li>
+            <li><strong>Assine o termo de adoção responsável.</strong> Depois disso, é só levar seu novo amigo para casa.</li>
+        </ol>
+ 
+        <a href="#" class="botao" data-rota="cadastro">Fazer cadastro</a>
+    </section>
+    `;
+}
+
 function mostrarAjudar() {
     app.innerHTML = `
     <section id="ajudar">
@@ -115,7 +133,7 @@ function mostrarCadastro() {
             <h2>Faça seu cadastro</h2>
             <p>Preencha seus dados para adotar um gatinho ou acompanhar suas doações ao Projeto Patas.</p>
 
-            <form id="form-cadastro" class="form-cadastro" novalidade> 
+            <form id="form-cadastro" class="form-cadastro" novalidate> 
             <fieldset> 
                 <legend>Informações pessoais</legend>
 
@@ -216,6 +234,9 @@ function ativarRota(rota) {
     if (rota === "cadastro") {
         mostrarCadastro();
     }
+    if (rota === "adotar") {
+        mostrarAdotar();
+    }
 }
 
 
@@ -244,7 +265,7 @@ document.addEventListener("click", function(event) {
 });
 
 window.addEventListener("hashchange", function() {
-    const rota = location.hash.replace("#", ""); "inicio";
+    const rota = location.hash.replace("#", "") || "inicio";
     ativarRota(rota);
 });
 
@@ -264,23 +285,81 @@ app.addEventListener("click", function(event) {
     }, 6000);
 });
 
-// botão "fazer uma doação"
-app.addEventListener("click", function(event) {
-        const botao = event.target.closest("#botao-doar");
-        
-        if (!botao) {
+// toast ao finalizar cadastro 
+function mostrarToastCadastro() {
+    const toast = document.querySelector("#toast");
+    toast.classList.add("mostrar");
+ 
+    setTimeout(function() {
+        toast.classList.remove("mostrar");
+    }, 6000);
+}
+
+/*pinta o campo de verde (válido) ou terracota (invalido) */
+function marcarCampo(campo) {
+    if (campo.checkValidity()) {
+        campo.classList.add("campo-sucesso");
+        campo.classList.remove("campo-erro");
+    } else {
+        campo.classList.add("campo-erro");
+        campo.classList.remove("campo-sucesso");
+    }
+}
+
+function configurarValidacaoCadastro() {
+    const formulario = document.querySelector("#form-cadastro");
+
+    if (!formulario) {
+        return;
+    }
+
+    const campos = formulario.querySelectorAll("input, select");
+    const senha = formulario.querySelector("#senha");
+    const confirmarSenha = formulario.querySelector("#confirmar-senha");
+
+    /* setCustomValidity faz o checkValidity() do campo falhar enquanto
+       as senhas forem diferentes. Sem isso, a checagem de senha seria
+       só visual e o formulário poderia ser enviado com senhas diferentes. */
+    function conferirSenhas() {
+        if (confirmarSenha.value === senha.value) {
+            confirmarSenha.setCustomValidity("");
+        } else {
+            confirmarSenha.setCustomValidity("As senhas não coincidem");
+        }
+    }
+
+    campos.forEach(function(campo) {
+        campo.addEventListener("input", function() {
+            if (campo === senha || campo === confirmarSenha) {
+                conferirSenhas();
+            }
+
+            marcarCampo(campo);
+
+            // se a senha mudou depois da confirmação ser digitada,
+            // a confirmação precisa ser revalidada também
+            if (campo === senha && confirmarSenha.value !== "") {
+                marcarCampo(confirmarSenha);
+            }
+        });
+    });
+
+    formulario.addEventListener("submit", function(event) {
+        // sem back-end, um envio normal recarregaria a página
+        event.preventDefault();
+
+        conferirSenhas();
+
+        if (!formulario.checkValidity()) {
+            campos.forEach(marcarCampo);
             return;
         }
-        
-        const alerta = document.querySelector("#alerta-doacao");
-        alerta.style.display = "block";
-        
-        botao.textContent = "Doação resgistrada!";
-        setTimeout(function() {
-            botao.textContent = "Fazer uma doação";
-        }, 3000);
+
+        mostrarToastCadastro();
+        location.hash = "inicio";
     });
-    
+}
+
 // página inicial 
 const rotaHash = location.hash.replace("#", ""); 
 

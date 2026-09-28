@@ -492,6 +492,21 @@ input:invalid {
     font-size: var(--fonte-x3);
     line-height: 1.5;
 }
+/* página Como adotar */ 
+#adotar {
+    padding: var(--espacamento4) 0;
+}
+.passos {
+    border: 1px solid var(--cor-apoio);
+    border-radius: 16px;
+    line-height: 1.6;
+    padding: var(--espacamento3) var(--espacamento4) var(--espacamento3) var(--espacamento5);
+}
+.passos li::marker {
+    color: var(--cor-secundaria);
+    font-weight: 700;
+}
+.passos li:last-child {margin-bottom: 0;}
 
 /* rodapé */
 footer {
