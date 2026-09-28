@@ -67,7 +67,7 @@ function mostrarAdocao() {
         <div class="animais-intro">
             <h2>Nossos gatinhos para adoção</h2>
             <p>Conheça alguns dos gatinhos que foram resgatados e receberam cuidados enquanto aguardam uma família responsável para chamarem de lar.</p>
-            
+            <a href="#" class="botao" data-rota="cadastro">Quero adotar</a>
         </div>
 
         <div class="animais">
@@ -94,12 +94,14 @@ function mostrarAjudar() {
                 <strong>Obrigada por contribuir! .✦ ݁˖</strong>
                 <p>Sua ajuda faz diferença para os animais do Projeto Patas.</p>
             </div>
+            <a href="#" class="botao" data-rota="cadastro">Cadastre-se para doar</a>
         </section>
     
         <section id="voluntariado">
             <h3>Voluntariado</h3>
         
             <p>Você pode participar do Projeto Patas ajudando nas ações de cuidado, divulgação, campanhas de adoção e eventos de conscientização. O trabalho voluntário contribui diretamente para o bem-estar dos animais.</p>
+            <a href="#" class="botao" data-rota="cadastro">Quero me voluntariar</a>
         </section>
 
             <button class="botao" id="botao-ajudar" type="button">
@@ -108,44 +110,99 @@ function mostrarAjudar() {
         </section>
 `
 }
+/* Nova função: mostrarCadastro()*/
+function mostrarCadastro() {
+    app.innerHTML = `
+    <section id="cadastro" class="grid">
+        <div class="cadastro-conteudo">
+            <h2>Faça seu cadastro</h2>
+            <p>Preencha seus dados para adotar um gatinho ou acompanhar suas doações ao Projeto Patas.</p>
+
+            <form id="form-cadastro" class="form-cadastro" novalidade> 
+            <fieldset> 
+                <legend>Informações pessoais</legend>
+
+                <div class="campo-grupo">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="nascimento">Data de nascimento</label>
+                            <input type="date" id="nascimento" name="nascimento" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="cpf">CPF</label>
+                            <input type="text" id="cpf" name="cpf" pattern="[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}-?[0-9]{2}" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" pattern="\\([0-9]{2}\\) [0-9]{4,5}-[0-9]{4}" required>
+                        </div>
+                    </fieldset>
+ 
+                    <fieldset>
+                        <legend>Endereço</legend>
+ 
+                        <div class="campo-grupo">
+                            <label for="endereco">Endereço</label>
+                            <input type="text" id="endereco" name="endereco" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="cep">CEP</label>
+                            <input type="text" id="cep" name="cep" pattern="[0-9]{5}-?[0-9]{3}" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" name="cidade" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="estado">Estado</label>
+                            <select id="estado" name="estado" required>
+                                <option value="">Selecione</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PR">Paraná</option>
+                            </select>
+                        </div>
+                    </fieldset>
+ 
+                    <fieldset>
+                        <legend>Dados de acesso</legend>
+ 
+                        <div class="campo-grupo">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha" required>
+                        </div>
+ 
+                        <div class="campo-grupo">
+                            <label for="confirmar-senha">Confirmar senha</label>
+                            <input type="password" id="confirmar-senha" name="confirmar-senha" required>
+                        </div>
+                    </fieldset>
+ 
+                    <button type="submit" class="botao">Cadastrar</button>
+                </form>
+            </div>
+        </section>
+    `;
+    configurarValidacaoCadastro();
+}
+
 
 /* ROTEAMENTO E EVENTOS */
-const links = document.querySelectorAll("[data-rota]");
-
-links.forEach(function(link) {
-    link.addEventListener("click", function(event) {
-
-        event.preventDefault();
-        const rota = link.dataset.rota;
-        location.hash = rota;
-        // Salva a última rota acessada no localStorage
-        const historico ={
-            rota: rota
-        };
-
-        localStorage.setItem(
-            "historicoProjetoPatas",
-            JSON.stringify(historico)
-        );
-
-        if (rota === "inicio") {
-            mostrarInicio();
-        }
-        if (rota === "sobre") {
-            mostrarSobre();
-        }
-        if (rota === "adocao") {
-            mostrarAdocao();
-        }
-        if (rota === "ajudar") {
-            mostrarAjudar();
-        }
-    });
-});
-
-window.addEventListener("hashchange", function() {
-    const rota = location.hash.replace("#", "");
-
+function ativarRota(rota) {
     if (rota === "inicio") {
         mostrarInicio();
     }
@@ -158,6 +215,40 @@ window.addEventListener("hashchange", function() {
     if (rota === "ajudar") {
         mostrarAjudar();
     }
+    if (rota === "cadastro") {
+        mostrarCadastro();
+    }
+}
+
+ativarRota(rotaInicial);
+
+document.addEventListener("click", function(event) {
+    const link = event.target.closest("[data-rota]");
+
+    if (!link) {
+        return;
+    }
+
+    event.preventDefault();
+    const rota = link.dataset.rota;
+    location.hash = rota;
+
+    // Salva a última rota acessada no localStorage
+    const historico = {
+        rota: rota
+    };
+
+    localStorage.setItem(
+        "historicoProjetoPatas",
+        JSON.stringify(historico)
+    );
+
+    ativarRota(rota);
+});
+
+window.addEventListener("hashchange", function() {
+    const rota = location.hash.replace("#", "");
+    ativarRota(rota);
 });
 
 // botão "quero ajudar"
