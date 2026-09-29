@@ -1,0 +1,26 @@
+{
+  "name": "ong-project",
+  "version": "1.0.0",
+  "description": "O **Projeto Patas** é uma aplicação web desenvolvida para representar uma ONG fictícia voltada à proteção e adoção de animais.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tacibonando/Projeto-Patas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/tacibonando/Projeto-Patas/issues"
+  },
+  "homepage": "https://github.com/tacibonando/Projeto-Patas#readme",
+  "devDependencies": {
+    "vite": "^8.3.1"
+  }
+}
