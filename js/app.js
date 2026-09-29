@@ -12,15 +12,15 @@ function mostrarInicio() {
         </div>
 
         <div class="imagem-destaque">
-            <img src="/imagens/hero-gato.800.webp"
-              srcset="
-                /imagens/hero-gato.400.webp 400w, 
-                /imagens/hero-gato.800.webp 800w,
-                /imagens/hero-gato.1200.webp 1200w
-                "
+            <img
+                src="${import.meta.env.BASE_URL}imagens/hero-gato.800.webp"
+                srcset="
+                     ${import.meta.env.BASE_URL}imagens/hero-gato.480.webp 480w,
+                    ${import.meta.env.BASE_URL}imagens/hero-gato.800.webp 800w,
+                    ${import.meta.env.BASE_URL}imagens/hero-gato.1200.webp 1200w
+            "
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt="Gato resgatado pelo Projeto Patas"
-            >
+            alt="Gato resgatado pelo Projeto Patas">
         </div>
         </section>
         `;
@@ -38,22 +38,22 @@ function mostrarSobre() {
 const gatos = [
     {
         nome: "Panqueca",
-        imagem: "/imagens/animal1.webp",
+        imagem:  `${import.meta.env.BASE_URL}imagens/animal1.webp`,
         alt: "Panqueca, gatinho resgatado pelo Projeto Patas"
     },
     {
         nome: "Blake",
-        imagem: "/imagens/animal2.webp",
+        imagem: `${import.meta.env.BASE_URL}imagens/animal2.webp`,
         alt: "Blake, gato resgatado pelo Projeto Patas"
     },
     {
         nome: "Farofa",
-        imagem: "imagens/animal3.webp",
+        imagem: `${import.meta.env.BASE_URL}imagens/animal3.webp`,
         alt: "Farofa, gato resgatado pelo Projeto Patas"
     },
     {
         nome: "Dorothy",
-        imagem: "/imagens/animal4.webp",
+        imagem: `${import.meta.env.BASE_URL}imagens/animal4.webp`,
         alt: "Dorothy, gatinha resgatada pelo Projeto Patas"
     }  
 ];
